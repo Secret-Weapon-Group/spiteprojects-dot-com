@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spite Projects</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #0a0a0a;
+      color: #e0e0e0;
+      line-height: 1.6;
+      padding: 2rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    h1 { color: #ff6b6b; margin-bottom: 0.5rem; }
+    .tagline { color: #888; margin-bottom: 2rem; font-style: italic; }
+    .projects { margin: 2rem 0; }
+    .project {
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+    .project h3 { color: #ff6b6b; }
+    .project a { color: #6bcfff; }
+    .project .meta { color: #666; font-size: 0.85rem; margin-top: 0.5rem; }
+    .submit-section {
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-top: 2rem;
+    }
+    .submit-section h2 { color: #ff6b6b; margin-bottom: 1rem; }
+    form { display: flex; flex-direction: column; gap: 1rem; }
+    input, textarea {
+      background: #0a0a0a;
+      border: 1px solid #444;
+      border-radius: 4px;
+      padding: 0.75rem;
+      color: #e0e0e0;
+      font-size: 1rem;
+    }
+    button {
+      background: #ff6b6b;
+      color: #0a0a0a;
+      border: none;
+      border-radius: 4px;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    button:hover { background: #ff8585; }
+    .message { padding: 1rem; border-radius: 4px; margin-top: 1rem; }
+    .message.success { background: #1a3a1a; border: 1px solid #2d5a2d; }
+    .message.error { background: #3a1a1a; border: 1px solid #5a2d2d; }
+  </style>
+</head>
+<body>
+  <h1>Spite Projects</h1>
+  <p class="tagline">AI projects built out of spite against over-commercialization</p>
+
+  <div class="projects" id="projects">
+    <p>Loading projects...</p>
+  </div>
+
+  <div class="submit-section">
+    <h2>Submit Your Spite Project</h2>
+    <form id="submit-form">
+      <input type="text" name="name" placeholder="Project name" required>
+      <input type="url" name="url" placeholder="GitHub/project URL" required>
+      <textarea name="description" placeholder="What's the spite behind it?" rows="3"></textarea>
+      <input type="text" name="submittedBy" placeholder="Your name (optional)">
+      <button type="submit">Submit Project</button>
+    </form>
+    <div id="message"></div>
+  </div>
+
+  <script>
+    async function loadProjects() {
+      const res = await fetch('/api/projects');
+      const projects = await res.json();
+      const container = document.getElementById('projects');
+
+      if (projects.length === 0) {
+        container.innerHTML = '<p>No projects yet. Be the first!</p>';
+        return;
+      }
+
+      container.innerHTML = projects.map(p => `
+        <div class="project">
+          <h3>${p.name}</h3>
+          <p>${p.description}</p>
+          <p><a href="${p.url}" target="_blank">${p.url}</a></p>
+          <p class="meta">Submitted by ${p.submittedBy}</p>
+        </div>
+      `).join('');
+    }
+
+    document.getElementById('submit-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const form = e.target;
+      const data = Object.fromEntries(new FormData(form));
+
+      const res = await fetch('/api/projects', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+
+      const msg = document.getElementById('message');
+      if (res.ok) {
+        msg.className = 'message success';
+        msg.textContent = 'Project submitted!';
+        form.reset();
+        loadProjects();
+      } else {
+        const err = await res.json();
+        msg.className = 'message error';
+        msg.textContent = err.error || 'Something went wrong';
+      }
+    });
+
+    loadProjects();
+  </script>
+</body>
+</html>

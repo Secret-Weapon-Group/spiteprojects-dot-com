@@ -1,0 +1,20 @@
+{
+  "name": "spiteprojects-dot-com",
+  "version": "1.0.0",
+  "description": "AI projects built out of spite, including this project itself (hence the name)",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["spite", "ai", "projects"],
+  "author": "",
+  "license": "ISC",
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "express": "^4.21.0"
+  }
+}

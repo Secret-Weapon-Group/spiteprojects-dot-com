@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "Bash(npm init:*)",
+      "Bash(npx metaswarm:*)",
+      "Bash(npm install:*)",
+      "Bash(timeout 3 npm start)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
