@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spite Builders - Hire at your own risk</title>
+  <meta name="description" content="Reverse job board for developers who already built the thing you were going to pay someone $200k to build.">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header>
+    <h1><a href="/">Spite Projects</a></h1>
+  </header>
+
+  <main>
+    <h2 style="color: #ff6b6b; margin-bottom: 0.5rem;">Spite Builders ✊</h2>
+    <p class="tagline" style="color: #888; margin-bottom: 1.5rem; font-style: italic;">
+      These people already built the thing you were going to pay someone $200k to build. But sure, hire them.
+    </p>
+
+    <div class="disclaimer" style="background: #1a1a1a; border: 1px solid #444; border-radius: 8px; padding: 1rem; margin-bottom: 2rem; color: #aaa; font-size: 0.9rem;">
+      <strong style="color: #ff6b6b;">⚠️ Hire at your own risk:</strong> These developers have a proven track record of solving problems
+      before you knew you had them. They may question why you need 47 microservices for a blog. They will probably
+      rewrite your CI/CD pipeline in a weekend. Don't say we didn't warn you.
+    </div>
+
+    <div class="filters">
+      <input type="search" class="search-box" id="search" placeholder="Search builders...">
+      <label style="display: flex; align-items: center; gap: 0.5rem; color: #aaa;">
+        <input type="checkbox" id="availableOnly" style="width: auto;">
+        Show available only
+      </label>
+    </div>
+
+    <div class="builders" id="builders">
+      <p style="color: #666;">Loading builders...</p>
+    </div>
+
+    <div class="submit-section">
+      <h2>List Yourself ✊</h2>
+      <p style="color: #aaa; line-height: 1.8;">
+        Built something out of spite? Want to show off your spite engineering skills?<br>
+        Add yourself to
+        <a href="https://github.com/Secret-Weapon-Group/spiteprojects-dot-com/blob/main/data/builders.md" target="_blank">data/builders.md</a>
+        and open a PR.
+      </p>
+      <a href="https://github.com/Secret-Weapon-Group/spiteprojects-dot-com/edit/main/data/builders.md"
+         target="_blank"
+         class="submit-button">
+        Add Your Profile via PR
+      </a>
+    </div>
+  </main>
+
+  <footer>
+    <a href="/">Projects</a> · <a href="/builders.html">Builders</a> · <a href="/manifesto.html">Manifesto</a> ·
+    <a href="/terms.html">Terms</a> · <a href="/privacy.html">Privacy</a> ·
+    <a href="https://github.com/Secret-Weapon-Group/spiteprojects-dot-com" target="_blank">GitHub</a>
+  </footer>
+
+  <script>
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text || '';
+      return div.innerHTML;
+    }
+
+    function renderBuilder(b) {
+      const availableBadge = b.available
+        ? '<span style="background: #1a3a1a; color: #4ade80; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.85rem; border: 1px solid #2d5a2d;">✊ Available</span>'
+        : '<span style="background: #2a2a2a; color: #666; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.85rem; border: 1px solid #333;">Busy being spiteful</span>';
+
+      const links = [];
+      if (b.github) links.push(`<a href="${escapeHtml(b.github)}" target="_blank" rel="noopener noreferrer">GitHub</a>`);
+      if (b.linkedin) links.push(`<a href="${escapeHtml(b.linkedin)}" target="_blank" rel="noopener noreferrer">LinkedIn</a>`);
+
+      const projectLinks = (b.projects || []).map(p =>
+        `<a href="/?search=${encodeURIComponent(p)}" class="label">${escapeHtml(p)}</a>`
+      ).join('');
+
+      return `
+        <div class="project-card builder-card" data-available="${b.available}">
+          <div class="project-info">
+            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+              <div>
+                <h3>${escapeHtml(b.name)}</h3>
+                <p style="color: #888; font-size: 0.9rem; font-style: italic;">${escapeHtml(b.title)}</p>
+              </div>
+              ${availableBadge}
+            </div>
+            <p class="description" style="margin-top: 0.75rem;">
+              <strong style="color: #ff6b6b;">Spite Specialty:</strong> ${escapeHtml(b.spite_specialty)}
+            </p>
+            ${projectLinks ? `<div class="labels" style="margin-top: 0.75rem;"><strong style="color: #888; font-size: 0.85rem; margin-right: 0.5rem;">Built:</strong>${projectLinks}</div>` : ''}
+            <div class="project-links" style="margin-top: 1rem;">${links.join('')}</div>
+          </div>
+        </div>
+      `;
+    }
+
+    async function loadBuilders() {
+      const container = document.getElementById('builders');
+      try {
+        const res = await fetch('/api/builders');
+        const builders = await res.json();
+
+        if (builders.length === 0) {
+          container.innerHTML = '<p style="color: #666;">No builders yet. Be the first to list yourself!</p>';
+          return;
+        }
+
+        window.allBuilders = builders;
+        renderBuilders();
+      } catch (err) {
+        container.innerHTML = '<p style="color: #ff6b6b;">Failed to load builders</p>';
+      }
+    }
+
+    function renderBuilders() {
+      const container = document.getElementById('builders');
+      const searchQuery = document.getElementById('search').value.toLowerCase();
+      const availableOnly = document.getElementById('availableOnly').checked;
+
+      let filtered = window.allBuilders || [];
+
+      if (searchQuery) {
+        filtered = filtered.filter(b => {
+          const text = `${b.name} ${b.title} ${b.spite_specialty} ${(b.projects || []).join(' ')}`.toLowerCase();
+          return text.includes(searchQuery);
+        });
+      }
+
+      if (availableOnly) {
+        filtered = filtered.filter(b => b.available);
+      }
+
+      if (filtered.length === 0) {
+        container.innerHTML = '<p style="color: #666;">No builders match your criteria. Lower your standards.</p>';
+        return;
+      }
+
+      container.innerHTML = filtered.map(renderBuilder).join('');
+    }
+
+    // Event listeners
+    document.getElementById('search').addEventListener('input', renderBuilders);
+    document.getElementById('availableOnly').addEventListener('change', renderBuilders);
+
+    loadBuilders();
+  </script>
+</body>
+</html>

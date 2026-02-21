@@ -6,7 +6,11 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "node --watch src/server.js",
-    "validate": "node scripts/validate-listings.js",
+    "validate": "node scripts/validate-listings.js && node scripts/validate-builders.js",
+    "validate-listings": "node scripts/validate-listings.js",
+    "validate-builders": "node scripts/validate-builders.js",
+    "generate-scores": "node scripts/generate-spite-scores.js",
+    "generate-changelog": "node scripts/generate-changelog.js",
     "prepare": "husky || true",
     "test": "npm run validate"
   },

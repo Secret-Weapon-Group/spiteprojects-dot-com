@@ -14,7 +14,21 @@ const BLOCKLIST_PATH = path.join(__dirname, '../data/blocklist.md');
 const MAX_DESCRIPTION_LENGTH = 500;
 const MAX_NAME_LENGTH = 100;
 const MAX_LABELS = 10;
+const MAX_BADGES = 5;
 const LABEL_PATTERN = /^[a-z0-9-]+$/;
+
+const VALID_BADGES = [
+  'speed-run',
+  'one-coffee',
+  'rage-quit',
+  '3am-spite',
+  'full-circle',
+  'surgical-strike',
+  'mammoth-slayer',
+  'vibe-coded',
+  'subscription-killer',
+  'first-blood',
+];
 
 const ALLOWED_APP_DOMAINS = [
   'play.google.com',
@@ -204,6 +218,39 @@ function validateListing(listing, index, blocklistPatterns) {
   // Optional: thumbnail
   if (listing.thumbnail && !isValidUrl(listing.thumbnail)) {
     errors.push(`${prefix}: invalid thumbnail URL`);
+  }
+
+  // Optional: badges
+  if (listing.badges) {
+    if (!Array.isArray(listing.badges)) {
+      errors.push(`${prefix}: badges must be an array`);
+    } else {
+      if (listing.badges.length > MAX_BADGES) {
+        errors.push(`${prefix}: too many badges (max ${MAX_BADGES})`);
+      }
+      for (const badge of listing.badges) {
+        if (!VALID_BADGES.includes(badge)) {
+          errors.push(`${prefix}: invalid badge '${badge}' (see DESIGN-BADGES.md for valid badges)`);
+        }
+      }
+    }
+  }
+
+  // Optional: spite_score (maintainer-generated)
+  if (listing.spite_score !== undefined) {
+    const score = parseFloat(listing.spite_score);
+    if (isNaN(score) || score < 1 || score > 10) {
+      errors.push(`${prefix}: spite_score must be a number between 1 and 10`);
+    }
+  }
+
+  // Optional: spite_roast (maintainer-generated)
+  if (listing.spite_roast !== undefined) {
+    if (typeof listing.spite_roast !== 'string') {
+      errors.push(`${prefix}: spite_roast must be a string`);
+    } else if (listing.spite_roast.length > 500) {
+      errors.push(`${prefix}: spite_roast exceeds 500 characters`);
+    }
   }
 
   return errors;
