@@ -135,7 +135,7 @@ Contract Type: Fixed supply, non-mintable
 
 ### Optional: Burn Function
 
-Allows holders to permanently destroy their SPITE tokens:
+Allows holders to permanently destroy their SpiteCoins:
 
 ```solidity
 - burn(uint256 amount) - Burn your own spite
@@ -156,7 +156,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
  * @dev The official cryptocurrency of spite-driven innovation.
  *
  * Features:
- * - Fixed supply of 1 billion SPITE tokens
+ * - Fixed supply of 1 billion SpiteCoins
  * - No minting after deployment
  * - Burnable (destroy spite at will)
  * - No pause, no blacklist, no centralized control
@@ -180,7 +180,7 @@ contract SpiteCoin is ERC20, ERC20Burnable, Ownable {
     // No mint function - spite is scarce
 
     /**
-     * @dev Anyone can burn their own SPITE tokens.
+     * @dev Anyone can burn their own SpiteCoins.
      * Spite can be destroyed but never created.
      */
     // burn() inherited from ERC20Burnable
@@ -376,7 +376,7 @@ npx hardhat init
 ### Adding Liquidity on Uniswap (Base Network) ✊
 
 **Prerequisites**:
-- ~$100-500 worth of ETH + SPITE tokens
+- ~$100-500 worth of ETH + SpiteCoins
 - Example: 100,000 SPITE + $100 ETH = initial pool
 
 **Steps**:

@@ -14,7 +14,7 @@ SpiteCon flips the script: it's a conference where humans are explicitly NOT inv
 
 ### Why This Is Spite
 
-1. **Anti-commercialization**: Conference tickets cost thousands. SpiteCon costs 1000 SPITE tokens (which don't exist yet)
+1. **Anti-commercialization**: Conference tickets cost thousands. SpiteCon costs 1000 SpiteCoins (which don't exist yet)
 2. **Against gatekeeping**: Instead of gatekeeping humans out, we're gatekeeping them out intentionally
 3. **Mocking conference culture**: Satirizes the absurdity of modern tech conferences with their "enterprise networking" and "thought leadership"
 4. **Built in an afternoon**: This is a single HTML page. No registration database. No payment processing. Pure spite.
@@ -208,7 +208,7 @@ Require evidence that you're NOT human:
 
 ### SpiteCoin Economics
 
-- **Ticket Price**: 1000 SPITE tokens
+- **Ticket Price**: 1000 SpiteCoins
 - **Current Value**: $0 (doesn't exist yet)
 - **Future Value**: TBD (if we actually build SpiteCoin)
 - **Refund Policy**: No refunds. It's spite.

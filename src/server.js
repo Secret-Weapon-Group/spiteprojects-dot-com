@@ -595,6 +595,70 @@ app.get('/health', (req, res) => {
   res.json({ status: 'ok' });
 });
 
+// Sitemap (aka Spitemap) - generates dynamic XML sitemap
+app.get(['/sitemap.xml', '/spitemap.xml'], (req, res) => {
+  const baseUrl = 'https://spiteprojects.com';
+  const listings = loadListings();
+
+  // Static pages
+  const staticPages = [
+    { loc: '/', priority: '1.0', changefreq: 'daily' },
+    { loc: '/builders.html', priority: '0.8', changefreq: 'weekly' },
+    { loc: '/manifesto.html', priority: '0.7', changefreq: 'monthly' },
+    { loc: '/api.html', priority: '0.6', changefreq: 'monthly' },
+    { loc: '/about.html', priority: '0.5', changefreq: 'monthly' },
+    { loc: '/badges.html', priority: '0.5', changefreq: 'monthly' },
+    { loc: '/spitecon.html', priority: '0.6', changefreq: 'monthly' },
+    { loc: '/terms.html', priority: '0.3', changefreq: 'yearly' },
+    { loc: '/privacy.html', priority: '0.3', changefreq: 'yearly' }
+  ];
+
+  // Generate XML
+  const today = new Date().toISOString().split('T')[0];
+
+  let xml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Static pages -->
+${staticPages.map(page => `  <url>
+    <loc>${baseUrl}${page.loc}</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>${page.changefreq}</changefreq>
+    <priority>${page.priority}</priority>
+  </url>`).join('\n')}
+  <!-- Project vanity URLs -->
+${listings.filter(p => p.vanity).map(p => `  <url>
+    <loc>${baseUrl}/${p.vanity}</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>`).join('\n')}
+</urlset>`;
+
+  res.setHeader('Content-Type', 'application/xml');
+  res.send(xml);
+});
+
+// Robots.txt
+app.get('/robots.txt', (req, res) => {
+  const robots = `# Spite Projects - robots.txt
+# Built with spite, indexed with grace
+
+User-agent: *
+Allow: /
+
+# Sitemap (we call it spitemap, but search engines don't appreciate the humor)
+Sitemap: https://spiteprojects.com/sitemap.xml
+
+# Alternative for spite enthusiasts
+# Sitemap: https://spiteprojects.com/spitemap.xml
+
+# No spite left behind
+Crawl-delay: 1
+`;
+  res.setHeader('Content-Type', 'text/plain');
+  res.send(robots);
+});
+
 // Serve index.html for all other routes (SPA fallback)
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/index.html'));

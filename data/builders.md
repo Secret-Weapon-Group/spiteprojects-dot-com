@@ -30,11 +30,11 @@ Each builder is a YAML block in a code fence. Required fields marked with `*`.
 ## Builders
 
 ```yaml
-- name: Adam Sah
-  linkedin: https://linkedin.com/in/adamsah
-  github: https://github.com/asah
-  projects: [spiteprojects.com]
-  title: Chief Spite Officer
-  available: false
-  spite_specialty: Building directories of things built out of spite
+# Example entry - add yours below!
+# - name: Your Name
+#   github: https://github.com/yourusername
+#   projects: [your-project-name]
+#   title: Your Snarky Title
+#   available: true
+#   spite_specialty: What you build out of spite
 ```
