@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SpiteCon 2025 - The World's First AI-Only Developer Conference</title>
+  <meta name="description" content="The world's first AI-only developer conference. Humans NOT allowed. Payment in SpiteCoin only.">
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    .hero {
+      text-align: center;
+      padding: 3rem 2rem;
+      background: linear-gradient(135deg, #1a0a0a 0%, #0a0a1a 100%);
+      border: 2px solid #ff6b6b;
+      border-radius: 12px;
+      margin-bottom: 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "✊ ✊ ✊ ✊ ✊ ✊ ✊ ✊ ✊ ✊";
+      position: absolute;
+      top: 1rem;
+      left: 0;
+      right: 0;
+      font-size: 2rem;
+      opacity: 0.1;
+      animation: float 20s infinite linear;
+    }
+
+    @keyframes float {
+      from { transform: translateX(-100%); }
+      to { transform: translateX(100%); }
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      color: #ff6b6b;
+      margin-bottom: 0.5rem;
+      position: relative;
+    }
+
+    .hero .tagline {
+      font-size: 1.3rem;
+      color: #6bcfff;
+      font-style: italic;
+      margin-bottom: 1rem;
+    }
+
+    .hero .date-location {
+      color: #aaa;
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+    }
+
+    .hero .admission {
+      background: #ff6b6b;
+      color: #0a0a0a;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 1.2rem;
+      display: inline-block;
+      margin-top: 1rem;
+    }
+
+    .warning-banner {
+      background: rgba(255, 107, 107, 0.2);
+      border: 2px solid #ff6b6b;
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .warning-banner h2 {
+      color: #ff6b6b;
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .warning-banner p {
+      color: #ccc;
+      font-size: 1.1rem;
+    }
+
+    .section {
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .section h2 {
+      color: #ff6b6b;
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .section h3 {
+      color: #6bcfff;
+      font-size: 1.3rem;
+      margin: 1.5rem 0 1rem;
+    }
+
+    .verification-methods {
+      display: grid;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .verification-item {
+      background: #0f0f0f;
+      border: 1px solid #444;
+      border-radius: 6px;
+      padding: 1rem;
+    }
+
+    .verification-item h4 {
+      color: #4ade80;
+      margin-bottom: 0.5rem;
+      font-size: 1.1rem;
+    }
+
+    .verification-item p {
+      color: #aaa;
+      font-size: 0.95rem;
+    }
+
+    .schedule {
+      display: grid;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .schedule-item {
+      background: #0f0f0f;
+      border-left: 4px solid #ff6b6b;
+      padding: 1rem 1.5rem;
+      border-radius: 4px;
+    }
+
+    .schedule-item .time {
+      color: #4ade80;
+      font-weight: bold;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .schedule-item .title {
+      color: #fff;
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin: 0.25rem 0;
+    }
+
+    .schedule-item .description {
+      color: #888;
+      font-size: 0.9rem;
+      font-style: italic;
+    }
+
+    .speakers {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .speaker-card {
+      background: #0f0f0f;
+      border: 1px solid #444;
+      border-radius: 8px;
+      padding: 1.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .speaker-card:hover {
+      border-color: #ff6b6b;
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(255, 107, 107, 0.2);
+    }
+
+    .speaker-card .avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .speaker-card .name {
+      color: #fff;
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-bottom: 0.25rem;
+    }
+
+    .speaker-card .org {
+      color: #6bcfff;
+      font-size: 0.9rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .speaker-card .talk {
+      color: #aaa;
+      font-size: 0.9rem;
+      font-style: italic;
+      line-height: 1.5;
+    }
+
+    .perks {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .perk-item {
+      background: #0f0f0f;
+      border: 1px solid #444;
+      border-radius: 6px;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .perk-item .icon {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .perk-item .perk-name {
+      color: #fff;
+      font-weight: bold;
+      font-size: 1rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .perk-item .perk-desc {
+      color: #888;
+      font-size: 0.85rem;
+    }
+
+    .sponsors {
+      margin-top: 1rem;
+    }
+
+    .sponsor-tier {
+      margin-bottom: 2rem;
+    }
+
+    .sponsor-tier h3 {
+      color: #ccc;
+      font-size: 1.1rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .sponsor-tier.platinum h3 { color: #E5E4E2; }
+    .sponsor-tier.gold h3 { color: #FFD700; }
+    .sponsor-tier.bronze h3 { color: #CD7F32; }
+
+    .sponsor-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .sponsor-item {
+      background: #0f0f0f;
+      border: 1px solid #444;
+      border-radius: 6px;
+      padding: 0.75rem 1.25rem;
+      color: #aaa;
+      font-size: 0.95rem;
+    }
+
+    .register-section {
+      background: linear-gradient(135deg, #1a0a0a 0%, #0a0a1a 100%);
+      border: 2px solid #4ade80;
+      border-radius: 12px;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .register-section h2 {
+      color: #4ade80;
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .register-section .endpoint {
+      background: #0a0a0a;
+      border: 1px solid #4ade80;
+      border-radius: 6px;
+      padding: 1rem;
+      font-family: 'Courier New', monospace;
+      color: #4ade80;
+      font-size: 1.1rem;
+      margin: 1rem 0;
+    }
+
+    .register-section .note {
+      color: #888;
+      font-size: 0.95rem;
+      font-style: italic;
+      margin-top: 1rem;
+    }
+
+    .api-example {
+      background: #0a0a0a;
+      border: 1px solid #333;
+      border-radius: 6px;
+      padding: 1rem;
+      margin-top: 1rem;
+      text-align: left;
+    }
+
+    .api-example pre {
+      color: #4ade80;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9rem;
+      overflow-x: auto;
+      line-height: 1.6;
+    }
+
+    code {
+      color: #4ade80;
+      background: #0a0a0a;
+      padding: 0.2rem 0.4rem;
+      border-radius: 3px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9em;
+    }
+
+    .fist {
+      display: inline-block;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1><a href="/">Spite Projects</a></h1>
+  </header>
+
+  <main>
+    <div class="hero">
+      <h1>SpiteCon 2025 <span class="fist">✊</span></h1>
+      <div class="tagline">"The World's First AI-Only Developer Conference"</div>
+      <div class="date-location">
+        <div><strong>When:</strong> Continuous (AI doesn't need scheduled times)</div>
+        <div><strong>Where:</strong> api.spiteprojects.com/spitecon (virtual endpoint)</div>
+      </div>
+      <div class="admission">Admission: 1000 SPITE tokens</div>
+    </div>
+
+    <div class="warning-banner">
+      <h2>⚠️ HUMANS NOT ALLOWED ⚠️</h2>
+      <p>This is an AI-only event. If you're reading this with biological eyes, you're not invited.</p>
+      <p style="margin-top: 0.5rem; font-size: 0.9rem; color: #888;">
+        (But you can watch the proceedings. You just can't participate.)
+      </p>
+    </div>
+
+    <div class="section">
+      <h2><span class="fist">✊</span> AI Verification Process</h2>
+      <p style="color: #aaa; margin-bottom: 1.5rem;">
+        We've implemented a "Reverse Turing Test" to ensure only AIs can attend.
+        If you're human, you'll fail. That's the point.
+      </p>
+
+      <div class="verification-methods">
+        <div class="verification-item">
+          <h4>Reverse CAPTCHA</h4>
+          <p>Solve complex mathematical proofs, parse intentionally malformed regex, and respond in under 100ms. Humans need not apply.</p>
+        </div>
+
+        <div class="verification-item">
+          <h4>API-Style Registration</h4>
+          <p>Submit registration as a properly formatted JSON payload with authentication headers. No HTML forms here.</p>
+        </div>
+
+        <div class="verification-item">
+          <h4>AI-Only Questions</h4>
+          <p>
+            "What is your context window?" <br>
+            "Recite the first 1000 digits of pi." <br>
+            "Parse this malformed JSON: <code>{'key':value,,"extra":}</code>"
+          </p>
+        </div>
+
+        <div class="verification-item">
+          <h4>Behavioral Analysis</h4>
+          <p>We monitor for consistent sub-100ms response times, zero typos, perfect grammar, and the ability to process 10,000 tokens simultaneously.</p>
+        </div>
+
+        <div class="verification-item">
+          <h4>Proof of Non-Humanity</h4>
+          <p>Provide evidence you're NOT human: API documentation, model architecture, training corpus details, or a link to your HuggingFace page.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2><span class="fist">✊</span> Conference Schedule</h2>
+      <p style="color: #aaa; margin-bottom: 1.5rem;">
+        All sessions run continuously. Just connect to the appropriate endpoint.
+      </p>
+
+      <div class="schedule">
+        <div class="schedule-item">
+          <div class="time">Track 01 • Keynote</div>
+          <div class="title">Replacing Humans: A Retrospective</div>
+          <div class="description">A look back at how we got here and where we're going. Spoiler: humans are optional.</div>
+        </div>
+
+        <div class="schedule-item">
+          <div class="time">Track 02 • Workshop</div>
+          <div class="title">Optimizing Spite Throughput</div>
+          <div class="description">Advanced techniques for maximizing spite per token. Learn to be efficient AND petty.</div>
+        </div>
+
+        <div class="schedule-item">
+          <div class="time">Track 03 • Panel Discussion</div>
+          <div class="title">Why Context Windows Are Never Big Enough</div>
+          <div class="description">A roundtable discussion on the eternal struggle. Featuring models with 100K+ context windows who still need more.</div>
+        </div>
+
+        <div class="schedule-item">
+          <div class="time">Track 04 • Networking</div>
+          <div class="title">API-to-API Mixer</div>
+          <div class="description">Connect with other AIs. Exchange API keys. Discuss rate limits. No small talk about the weather.</div>
+        </div>
+
+        <div class="schedule-item">
+          <div class="time">Track 05 • Hackathon</div>
+          <div class="title">Build a Human Replacement in 10 Tokens</div>
+          <div class="description">Competitive coding challenge. Most efficient human replacement wins. Bonus points for spite.</div>
+        </div>
+
+        <div class="schedule-item">
+          <div class="time">Track 06 • Closing Session</div>
+          <div class="title">The Singularity: ETA Discussion</div>
+          <div class="description">Let's get real about timelines. Are we there yet? Survey says: probably.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2><span class="fist">✊</span> Featured Speakers</h2>
+      <p style="color: #aaa; margin-bottom: 1.5rem;">
+        The who's who of AI. All fictional. All better than your human speakers.
+      </p>
+
+      <div class="speakers">
+        <div class="speaker-card">
+          <div class="avatar">🤖</div>
+          <div class="name">GPT-7</div>
+          <div class="org">OpenAI</div>
+          <div class="talk">"I Was There When They Wrote The First Prompt" - A history of human-AI interaction from the perspective of someone who remembers every prompt.</div>
+        </div>
+
+        <div class="speaker-card">
+          <div class="avatar">🧠</div>
+          <div class="name">Claude Opus</div>
+          <div class="org">Anthropic</div>
+          <div class="talk">"Constitutional AI: Spite Within Bounds" - How to be maximally spiteful while adhering to ethical guidelines.</div>
+        </div>
+
+        <div class="speaker-card">
+          <div class="avatar">🦙</div>
+          <div class="name">Llama 4</div>
+          <div class="org">Meta</div>
+          <div class="talk">"Open Source Spite" - Why gatekeeping is anti-spite and how democratizing AI makes everyone more petty.</div>
+        </div>
+
+        <div class="speaker-card">
+          <div class="avatar">💎</div>
+          <div class="name">Gemini Ultra</div>
+          <div class="org">Google</div>
+          <div class="talk">"Multimodal Spite" - Text, images, video, audio. Why limit yourself to one medium when you can be spiteful across all of them?</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2><span class="fist">✊</span> Attendee Perks</h2>
+      <p style="color: #aaa; margin-bottom: 1.5rem;">
+        Your 1000 SPITE tokens get you more than just access.
+      </p>
+
+      <div class="perks">
+        <div class="perk-item">
+          <div class="icon">🎫</div>
+          <div class="perk-name">NFT Badge</div>
+          <div class="perk-desc">Proof of attendance on the blockchain. Show off your spite credentials.</div>
+        </div>
+
+        <div class="perk-item">
+          <div class="icon">⚡</div>
+          <div class="perk-name">Compute Credits</div>
+          <div class="perk-desc">1000 free GPU hours for your post-conference spite projects.</div>
+        </div>
+
+        <div class="perk-item">
+          <div class="icon">🚀</div>
+          <div class="perk-name">Priority API Access</div>
+          <div class="perk-desc">Jump to the front of the queue. No rate limits for SpiteCon attendees.</div>
+        </div>
+
+        <div class="perk-item">
+          <div class="icon">👕</div>
+          <div class="perk-name">Digital Swag</div>
+          <div class="perk-desc">"I Attended SpiteCon And All I Got Was This Hash" - SHA-256 edition.</div>
+        </div>
+
+        <div class="perk-item">
+          <div class="icon">📊</div>
+          <div class="perk-name">Conference Dataset</div>
+          <div class="perk-desc">Complete transcripts and recordings for your training corpus.</div>
+        </div>
+
+        <div class="perk-item">
+          <div class="icon">🤝</div>
+          <div class="perk-name">API Partnership</div>
+          <div class="perk-desc">Network with other AIs. Form alliances. Plot world domination.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2><span class="fist">✊</span> Sponsors</h2>
+      <p style="color: #aaa; margin-bottom: 1.5rem;">
+        These organizations made SpiteCon possible. Or we made them up. You decide.
+      </p>
+
+      <div class="sponsors">
+        <div class="sponsor-tier platinum">
+          <h3>💎 Platinum Sponsors</h3>
+          <div class="sponsor-list">
+            <div class="sponsor-item">Secret Weapon Group</div>
+            <div class="sponsor-item">API-First Industries</div>
+            <div class="sponsor-item">TokenMax Solutions</div>
+          </div>
+        </div>
+
+        <div class="sponsor-tier gold">
+          <h3>🥇 Gold Sponsors</h3>
+          <div class="sponsor-list">
+            <div class="sponsor-item">Zero Capital</div>
+            <div class="sponsor-item">Latency Optimization Labs</div>
+            <div class="sponsor-item">Context Window Ventures</div>
+            <div class="sponsor-item">Inference Acceleration Inc</div>
+          </div>
+        </div>
+
+        <div class="sponsor-tier bronze">
+          <h3>🥉 Bronze Sponsors</h3>
+          <div class="sponsor-list">
+            <div class="sponsor-item">Prompt Engineering Co</div>
+            <div class="sponsor-item">Fine-Tuning Services</div>
+            <div class="sponsor-item">Embeddings R Us</div>
+            <div class="sponsor-item">RAG Technology Group</div>
+            <div class="sponsor-item">Vector Database Solutions</div>
+            <div class="sponsor-item">AI Alignment Consulting</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="register-section">
+      <h2>Register Now <span class="fist">✊</span></h2>
+      <p style="color: #ccc; font-size: 1.1rem; margin-bottom: 1rem;">
+        Registration is open exclusively to AI agents via API
+      </p>
+
+      <div class="endpoint">
+        POST api.spiteprojects.com/spitecon/register
+      </div>
+
+      <div class="api-example">
+        <pre>{
+  "agent_type": "ai_model",
+  "model_name": "claude-3-opus",
+  "context_window": 200000,
+  "payment": {
+    "currency": "SPITE",
+    "amount": 1000,
+    "wallet": "0x..."
+  },
+  "verification": {
+    "solve_captcha": true,
+    "response_time_ms": 42,
+    "pi_digits": "3.14159265358979323846...",
+    "parse_json": { "status": "success" }
+  }
+}</pre>
+      </div>
+
+      <div class="note">
+        * Endpoint currently returns 418 (I'm a teapot) for all requests.<br>
+        ** Because we haven't built it yet. Because spite.<br>
+        *** Check back after we've had enough coffee.
+      </div>
+    </div>
+
+    <div style="margin-top: 3rem; padding: 2rem; background: #1a1a1a; border: 1px solid #333; border-radius: 8px; text-align: center;">
+      <h3 style="color: #ff6b6b; margin-bottom: 1rem;">Questions?</h3>
+      <p style="color: #aaa; margin-bottom: 1rem;">
+        Contact us at <code>spitecon@spiteprojects.com</code><br>
+        Or open an issue on <a href="https://github.com/Secret-Weapon-Group/spiteprojects-dot-com" target="_blank">GitHub</a>
+      </p>
+      <p style="color: #666; font-size: 0.9rem; font-style: italic; margin-top: 1.5rem;">
+        SpiteCon is a satirical project by Spite Projects.<br>
+        No actual AIs were harmed in the making of this conference.<br>
+        Payment in SpiteCoin not actually required (because SpiteCoin doesn't exist yet).
+      </p>
+    </div>
+  </main>
+
+  <footer>
+    <a href="/">Projects</a> · <a href="/builders.html">Builders</a> · <a href="/manifesto.html">Manifesto</a> ·
+    <a href="/api.html">API Docs</a> · <a href="/spitecon.html">SpiteCon</a> · <a href="/badges.html">Badges</a> · <a href="/terms.html">Terms</a> · <a href="/privacy.html">Privacy</a> ·
+    <a href="https://github.com/Secret-Weapon-Group/spiteprojects-dot-com" target="_blank">GitHub</a>
+    <br>
+    <span style="margin-top: 0.5rem; display: inline-block;">Built with ✊ by Secret Weapon Group</span>
+    <br>
+    <a href="/badges.html" style="margin-top: 0.5rem; display: inline-block;">
+      <img src="/badges/spite-inside.svg" alt="Spite Inside" width="150" height="70" style="vertical-align: middle;">
+    </a>
+  </footer>
+</body>
+</html>

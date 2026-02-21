@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spite Badges - Add Spite Branding to Your Project</title>
+  <meta name="description" content="Download Spite Inside badges and embed codes for your spite-driven projects.">
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    .badge-showcase {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+
+    .badge-card {
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 2rem;
+      transition: border-color 0.3s;
+    }
+
+    .badge-card:hover {
+      border-color: #ff6b6b;
+    }
+
+    .badge-preview {
+      background: #0a0a0a;
+      border-radius: 4px;
+      padding: 2rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 150px;
+    }
+
+    .badge-preview img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .badge-info h3 {
+      color: #ff6b6b;
+      margin-bottom: 0.5rem;
+      font-size: 1.4rem;
+    }
+
+    .badge-info p {
+      color: #aaa;
+      margin-bottom: 1rem;
+      line-height: 1.6;
+    }
+
+    .size-options {
+      display: flex;
+      gap: 1rem;
+      margin: 1rem 0;
+      flex-wrap: wrap;
+    }
+
+    .size-btn {
+      background: #2d2d2d;
+      border: 1px solid #444;
+      color: #fff;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.3s;
+    }
+
+    .size-btn:hover, .size-btn.active {
+      background: #ff6b6b;
+      border-color: #ff6b6b;
+    }
+
+    .code-block {
+      background: #0a0a0a;
+      border: 1px solid #333;
+      border-radius: 4px;
+      padding: 1rem;
+      margin: 0.5rem 0;
+      font-family: 'Courier New', monospace;
+      font-size: 0.85rem;
+      color: #0f0;
+      overflow-x: auto;
+      position: relative;
+    }
+
+    .code-block pre {
+      margin: 0;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+
+    .copy-btn {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      background: #ff6b6b;
+      border: none;
+      color: #fff;
+      padding: 0.3rem 0.8rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.75rem;
+      transition: background 0.3s;
+    }
+
+    .copy-btn:hover {
+      background: #ff4757;
+    }
+
+    .copy-btn.copied {
+      background: #2ecc71;
+    }
+
+    .embed-section {
+      margin-top: 1rem;
+    }
+
+    .embed-section h4 {
+      color: #fff;
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .tab-buttons {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .tab-btn {
+      background: #2d2d2d;
+      border: 1px solid #444;
+      color: #aaa;
+      padding: 0.4rem 1rem;
+      border-radius: 4px 4px 0 0;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+
+    .tab-btn:hover, .tab-btn.active {
+      background: #333;
+      color: #fff;
+      border-color: #ff6b6b;
+    }
+
+    .intro-section {
+      background: #1a1a1a;
+      border: 2px solid #ff6b6b;
+      border-radius: 8px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .intro-section h2 {
+      color: #ff6b6b;
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .intro-section p {
+      color: #ccc;
+      font-size: 1.1rem;
+      line-height: 1.8;
+    }
+
+    .fist-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1><a href="/">Spite Projects</a></h1>
+  </header>
+
+  <main>
+    <div class="intro-section">
+      <div class="fist-icon">✊</div>
+      <h2>Add Spite Branding to Your Project</h2>
+      <p>
+        Proudly display that your project was built out of spite.<br>
+        Show the world you chose anger and coffee over VC funding.
+      </p>
+    </div>
+
+    <div class="badge-showcase">
+      <!-- Spite Inside Badge -->
+      <div class="badge-card">
+        <div class="badge-preview">
+          <img src="/badges/spite-inside.svg" alt="Spite Inside" id="preview-spite-inside">
+        </div>
+        <div class="badge-info">
+          <h3>Spite Inside</h3>
+          <p>Intel Inside parody. Perfect for README files and website footers.</p>
+
+          <div class="size-options">
+            <button class="size-btn active" onclick="changeSize('spite-inside', 300, 140)">Original (300x140)</button>
+            <button class="size-btn" onclick="changeSize('spite-inside', 200, 93)">Small (200x93)</button>
+            <button class="size-btn" onclick="changeSize('spite-inside', 150, 70)">Tiny (150x70)</button>
+          </div>
+
+          <div class="embed-section">
+            <h4>Embed Code:</h4>
+            <div class="tab-buttons">
+              <button class="tab-btn active" onclick="showTab('spite-inside', 'html')">HTML</button>
+              <button class="tab-btn" onclick="showTab('spite-inside', 'markdown')">Markdown</button>
+              <button class="tab-btn" onclick="showTab('spite-inside', 'img')">Image URL</button>
+            </div>
+
+            <div id="code-spite-inside-html" class="code-block">
+              <button class="copy-btn" onclick="copyCode('spite-inside-html')">Copy</button>
+              <pre>&lt;a href="https://spiteprojects.com"&gt;
+  &lt;img src="https://spiteprojects.com/badges/spite-inside.svg"
+       alt="Spite Inside"
+       width="<span class="width-val">300</span>"
+       height="<span class="height-val">140</span>"&gt;
+&lt;/a&gt;</pre>
+            </div>
+
+            <div id="code-spite-inside-markdown" class="code-block" style="display: none;">
+              <button class="copy-btn" onclick="copyCode('spite-inside-markdown')">Copy</button>
+              <pre>[![Spite Inside](https://spiteprojects.com/badges/spite-inside.svg)](https://spiteprojects.com)</pre>
+            </div>
+
+            <div id="code-spite-inside-img" class="code-block" style="display: none;">
+              <button class="copy-btn" onclick="copyCode('spite-inside-img')">Copy</button>
+              <pre>https://spiteprojects.com/badges/spite-inside.svg</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Powered by Spite Badge -->
+      <div class="badge-card">
+        <div class="badge-preview">
+          <img src="/badges/powered-by-spite.svg" alt="Powered by Spite" id="preview-powered-by-spite">
+        </div>
+        <div class="badge-info">
+          <h3>Powered by Spite</h3>
+          <p>Classic "Powered by" badge with a fist. Great for site footers and project pages.</p>
+
+          <div class="size-options">
+            <button class="size-btn active" onclick="changeSize('powered-by-spite', 240, 80)">Original (240x80)</button>
+            <button class="size-btn" onclick="changeSize('powered-by-spite', 180, 60)">Medium (180x60)</button>
+            <button class="size-btn" onclick="changeSize('powered-by-spite', 120, 40)">Small (120x40)</button>
+          </div>
+
+          <div class="embed-section">
+            <h4>Embed Code:</h4>
+            <div class="tab-buttons">
+              <button class="tab-btn active" onclick="showTab('powered-by-spite', 'html')">HTML</button>
+              <button class="tab-btn" onclick="showTab('powered-by-spite', 'markdown')">Markdown</button>
+              <button class="tab-btn" onclick="showTab('powered-by-spite', 'img')">Image URL</button>
+            </div>
+
+            <div id="code-powered-by-spite-html" class="code-block">
+              <button class="copy-btn" onclick="copyCode('powered-by-spite-html')">Copy</button>
+              <pre>&lt;a href="https://spiteprojects.com"&gt;
+  &lt;img src="https://spiteprojects.com/badges/powered-by-spite.svg"
+       alt="Powered by Spite"
+       width="<span class="width-val">240</span>"
+       height="<span class="height-val">80</span>"&gt;
+&lt;/a&gt;</pre>
+            </div>
+
+            <div id="code-powered-by-spite-markdown" class="code-block" style="display: none;">
+              <button class="copy-btn" onclick="copyCode('powered-by-spite-markdown')">Copy</button>
+              <pre>[![Powered by Spite](https://spiteprojects.com/badges/powered-by-spite.svg)](https://spiteprojects.com)</pre>
+            </div>
+
+            <div id="code-powered-by-spite-img" class="code-block" style="display: none;">
+              <button class="copy-btn" onclick="copyCode('powered-by-spite-img')">Copy</button>
+              <pre>https://spiteprojects.com/badges/powered-by-spite.svg</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Certified Spite Badge -->
+      <div class="badge-card">
+        <div class="badge-preview">
+          <img src="/badges/certified-spite.svg" alt="Certified Spite Project" id="preview-certified-spite">
+        </div>
+        <div class="badge-info">
+          <h3>Certified Spite Project</h3>
+          <p>Official seal of spite certification. Perfect for showcasing your commitment to spite-driven development.</p>
+
+          <div class="size-options">
+            <button class="size-btn active" onclick="changeSize('certified-spite', 200, 200)">Original (200x200)</button>
+            <button class="size-btn" onclick="changeSize('certified-spite', 150, 150)">Medium (150x150)</button>
+            <button class="size-btn" onclick="changeSize('certified-spite', 100, 100)">Small (100x100)</button>
+          </div>
+
+          <div class="embed-section">
+            <h4>Embed Code:</h4>
+            <div class="tab-buttons">
+              <button class="tab-btn active" onclick="showTab('certified-spite', 'html')">HTML</button>
+              <button class="tab-btn" onclick="showTab('certified-spite', 'markdown')">Markdown</button>
+              <button class="tab-btn" onclick="showTab('certified-spite', 'img')">Image URL</button>
+            </div>
+
+            <div id="code-certified-spite-html" class="code-block">
+              <button class="copy-btn" onclick="copyCode('certified-spite-html')">Copy</button>
+              <pre>&lt;a href="https://spiteprojects.com"&gt;
+  &lt;img src="https://spiteprojects.com/badges/certified-spite.svg"
+       alt="Certified Spite Project"
+       width="<span class="width-val">200</span>"
+       height="<span class="height-val">200</span>"&gt;
+&lt;/a&gt;</pre>
+            </div>
+
+            <div id="code-certified-spite-markdown" class="code-block" style="display: none;">
+              <button class="copy-btn" onclick="copyCode('certified-spite-markdown')">Copy</button>
+              <pre>[![Certified Spite Project](https://spiteprojects.com/badges/certified-spite.svg)](https://spiteprojects.com)</pre>
+            </div>
+
+            <div id="code-certified-spite-img" class="code-block" style="display: none;">
+              <button class="copy-btn" onclick="copyCode('certified-spite-img')">Copy</button>
+              <pre>https://spiteprojects.com/badges/certified-spite.svg</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="intro-section" style="margin-top: 3rem;">
+      <h2>Usage Guidelines</h2>
+      <p style="text-align: left; max-width: 800px; margin: 0 auto;">
+        <strong>Who can use these badges?</strong><br>
+        Any project built out of spite. You don't need to be listed on spiteprojects.com (but you should be).<br><br>
+
+        <strong>What's the license?</strong><br>
+        CC0 / Public Domain. Use them however you want. We're not lawyers, and we don't care.<br><br>
+
+        <strong>Can I modify them?</strong><br>
+        Sure, they're SVGs. Fork the repo and make your own. Or don't. We're not the boss of you.<br><br>
+
+        <strong>Do I have to link back?</strong><br>
+        No, but it'd be nice. Help other spite-driven developers find their people.
+      </p>
+    </div>
+  </main>
+
+  <footer>
+    <a href="/">Projects</a> · <a href="/builders.html">Builders</a> · <a href="/manifesto.html">Manifesto</a> ·
+    <a href="/api.html">API Docs</a> · <a href="/about.html">About</a> · <a href="/terms.html">Terms</a> · <a href="/privacy.html">Privacy</a> ·
+    <a href="https://github.com/Secret-Weapon-Group/spiteprojects-dot-com" target="_blank">GitHub</a>
+    <br>
+    <span style="margin-top: 0.5rem; display: inline-block;">Built with ✊ by Secret Weapon Group</span>
+  </footer>
+
+  <script>
+    // Size tracking per badge
+    const sizes = {
+      'spite-inside': { width: 300, height: 140 },
+      'powered-by-spite': { width: 240, height: 80 },
+      'certified-spite': { width: 200, height: 200 }
+    };
+
+    function changeSize(badgeId, width, height) {
+      sizes[badgeId] = { width, height };
+
+      // Update preview
+      const preview = document.getElementById(`preview-${badgeId}`);
+      preview.width = width;
+      preview.height = height;
+
+      // Update code snippets
+      const card = preview.closest('.badge-card');
+      card.querySelectorAll('.width-val').forEach(el => el.textContent = width);
+      card.querySelectorAll('.height-val').forEach(el => el.textContent = height);
+
+      // Update button states
+      card.querySelectorAll('.size-btn').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+    }
+
+    function showTab(badgeId, type) {
+      const card = event.target.closest('.badge-card');
+
+      // Hide all code blocks in this card
+      card.querySelectorAll('[id^="code-"]').forEach(block => block.style.display = 'none');
+
+      // Show selected code block
+      document.getElementById(`code-${badgeId}-${type}`).style.display = 'block';
+
+      // Update tab button states
+      card.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+    }
+
+    function copyCode(codeId) {
+      const codeBlock = document.getElementById(`code-${codeId}`);
+      const text = codeBlock.querySelector('pre').textContent;
+
+      navigator.clipboard.writeText(text).then(() => {
+        const btn = event.target;
+        btn.textContent = 'Copied!';
+        btn.classList.add('copied');
+
+        setTimeout(() => {
+          btn.textContent = 'Copy';
+          btn.classList.remove('copied');
+        }, 2000);
+      });
+    }
+  </script>
+</body>
+</html>

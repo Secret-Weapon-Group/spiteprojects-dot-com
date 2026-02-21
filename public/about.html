@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About & Credits - Spite Projects</title>
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    .about-container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .credits-section {
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .credits-section h2 {
+      color: #ff6b6b;
+      margin-bottom: 1.5rem;
+      font-size: 1.8rem;
+      text-align: center;
+      border-bottom: 2px solid #333;
+      padding-bottom: 0.75rem;
+    }
+
+    .credit-item {
+      margin-bottom: 1rem;
+      padding: 0.75rem;
+      background: #0f0f0f;
+      border-radius: 4px;
+    }
+
+    .credit-label {
+      color: #6bcfff;
+      font-weight: bold;
+      margin-right: 0.5rem;
+    }
+
+    .credit-value {
+      color: #e0e0e0;
+    }
+
+    .credit-note {
+      color: #888;
+      font-style: italic;
+      font-size: 0.9rem;
+      margin-top: 0.25rem;
+    }
+
+    .sponsor-card {
+      background: #1a1a1a;
+      border: 2px solid #333;
+      border-radius: 8px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      transition: all 0.3s ease;
+    }
+
+    .sponsor-card.platinum {
+      border-color: #e5e7eb;
+      background: linear-gradient(135deg, rgba(229, 231, 235, 0.05) 0%, rgba(156, 163, 175, 0.05) 100%);
+    }
+
+    .sponsor-card.gold {
+      border-color: #fbbf24;
+      background: linear-gradient(135deg, rgba(251, 191, 36, 0.05) 0%, rgba(245, 158, 11, 0.05) 100%);
+    }
+
+    .sponsor-card.community {
+      border-color: #444;
+    }
+
+    .sponsor-tier {
+      color: #888;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 0.5rem;
+    }
+
+    .sponsor-card.platinum .sponsor-tier {
+      color: #e5e7eb;
+    }
+
+    .sponsor-card.gold .sponsor-tier {
+      color: #fbbf24;
+    }
+
+    .sponsor-name {
+      color: #ff6b6b;
+      font-size: 2rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+
+    .sponsor-tagline {
+      color: #6bcfff;
+      font-size: 1.1rem;
+      font-style: italic;
+      margin-bottom: 1rem;
+    }
+
+    .sponsor-logo-placeholder {
+      width: 120px;
+      height: 120px;
+      background: #0a0a0a;
+      border: 2px solid #444;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 1.5rem auto;
+      color: #666;
+      font-size: 0.8rem;
+    }
+
+    .sponsor-description {
+      color: #aaa;
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+
+    .sponsor-link {
+      display: inline-block;
+      background: #ff6b6b;
+      color: #0a0a0a;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: bold;
+      margin-top: 1rem;
+    }
+
+    .sponsor-link:hover {
+      background: #ff8585;
+      text-decoration: none;
+    }
+
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .tech-item {
+      background: #0f0f0f;
+      padding: 1rem;
+      border-radius: 4px;
+      border-left: 3px solid #6bcfff;
+    }
+
+    .tech-name {
+      color: #e0e0e0;
+      font-weight: bold;
+      margin-bottom: 0.25rem;
+    }
+
+    .tech-role {
+      color: #888;
+      font-size: 0.85rem;
+    }
+
+    .thanks-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .thanks-list li {
+      padding: 0.75rem;
+      margin-bottom: 0.5rem;
+      background: #0f0f0f;
+      border-radius: 4px;
+      border-left: 3px solid #ff6b6b;
+      color: #aaa;
+    }
+
+    .thanks-list li::before {
+      content: "✊ ";
+      margin-right: 0.5rem;
+    }
+
+    .scrolling-credits {
+      text-align: center;
+      padding: 3rem 0;
+      color: #666;
+      font-size: 0.9rem;
+    }
+
+    .scrolling-credits p {
+      margin: 0.5rem 0;
+      animation: fadeIn 1s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .become-sponsor {
+      text-align: center;
+      padding: 2rem;
+      background: #1a1a1a;
+      border: 2px dashed #444;
+      border-radius: 8px;
+      margin-top: 2rem;
+    }
+
+    .become-sponsor h3 {
+      color: #6bcfff;
+      margin-bottom: 1rem;
+    }
+
+    .become-sponsor p {
+      color: #888;
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1><a href="/">Spite Projects</a></h1>
+  </header>
+
+  <main>
+    <div class="about-container">
+      <h1 style="color: #ff6b6b; text-align: center; font-size: 2.5rem; margin-bottom: 2rem;">About & Credits</h1>
+
+      <!-- Credits Section -->
+      <div class="credits-section">
+        <h2>Credits</h2>
+
+        <div class="credit-item">
+          <div><span class="credit-label">Built by:</span><span class="credit-value">Secret Weapon Group</span></div>
+        </div>
+
+        <div class="credit-item">
+          <div><span class="credit-label">Concept:</span><span class="credit-value">Adam Sah</span></div>
+        </div>
+
+        <div class="credit-item">
+          <div><span class="credit-label">Code:</span><span class="credit-value">Claude (Anthropic)</span></div>
+          <div class="credit-note">"Yes, an AI built this. The spite is recursive."</div>
+        </div>
+
+        <div class="credit-item">
+          <div><span class="credit-label">Design:</span><span class="credit-value">Vibe-coded at 2am</span></div>
+        </div>
+      </div>
+
+      <!-- Sponsors Section -->
+      <h2 style="color: #ff6b6b; text-align: center; font-size: 2rem; margin: 3rem 0 2rem;">Our Sponsors</h2>
+
+      <!-- Platinum Sponsor -->
+      <div class="sponsor-card platinum">
+        <div class="sponsor-tier">Platinum Sponsor</div>
+        <div class="sponsor-name">Zero Capital</div>
+        <div class="sponsor-tagline">"We invested $0. That's the point."</div>
+
+        <div class="sponsor-logo-placeholder">
+          [Logo: Empty Wallet]
+        </div>
+
+        <div class="sponsor-description">
+          Zero Capital believes in funding projects that don't need funding. Our portfolio includes: nothing, because these projects were built for free.
+        </div>
+
+        <div class="sponsor-description">
+          Investment philosophy: Why give you money when spite is free and infinitely more motivating? We've helped exactly zero companies raise exactly zero dollars, and every single one of them succeeded anyway.
+        </div>
+      </div>
+
+      <!-- Gold Sponsor -->
+      <div class="sponsor-card gold">
+        <div class="sponsor-tier">Gold Sponsor</div>
+        <div class="sponsor-name">Secret Weapon Group</div>
+        <div class="sponsor-tagline">"The only consulting firm that tells you not to hire consultants."</div>
+
+        <div class="sponsor-description">
+          At Secret Weapon Group, we specialize in solving problems that don't actually need solving, by telling you they don't need solving, and then charging you nothing because that would be hypocritical.
+        </div>
+
+        <div class="sponsor-description">
+          Our services include: Realizing you don't need microservices, discovering that your monolith is fine, learning that SQLite can handle your "massive scale," and finding out that enterprise solutions are just marketing.
+        </div>
+
+        <a href="https://secretweapon.group" target="_blank" rel="noopener noreferrer" class="sponsor-link">Visit secretweapon.group</a>
+      </div>
+
+      <!-- Community Sponsors -->
+      <div class="sponsor-card community">
+        <div class="sponsor-tier">Community Sponsors</div>
+        <div class="sponsor-name">You?</div>
+
+        <div class="become-sponsor">
+          <h3>Become a Sponsor</h3>
+          <p>Your name here for 10,000 SPITE tokens</p>
+          <p style="font-size: 0.85rem; font-style: italic;">(SpiteCoin ICO coming soon. Don't actually send us money. Seriously.)</p>
+          <a href="/manifesto.html" class="sponsor-link">Read the Manifesto Instead</a>
+        </div>
+      </div>
+
+      <!-- Technology Credits -->
+      <div class="credits-section" style="margin-top: 3rem;">
+        <h2>Technology Stack</h2>
+
+        <div class="tech-grid">
+          <div class="tech-item">
+            <div class="tech-name">Node.js / Express</div>
+            <div class="tech-role">Backend runtime</div>
+          </div>
+
+          <div class="tech-item">
+            <div class="tech-name">Claude (Anthropic)</div>
+            <div class="tech-role">Our unpaid intern</div>
+          </div>
+
+          <div class="tech-item">
+            <div class="tech-name">GitHub Actions</div>
+            <div class="tech-role">Free CI/CD</div>
+          </div>
+
+          <div class="tech-item">
+            <div class="tech-name">Google Cloud Run</div>
+            <div class="tech-role">Serverless hosting</div>
+          </div>
+
+          <div class="tech-item">
+            <div class="tech-name">Vanilla JavaScript</div>
+            <div class="tech-role">No framework spite</div>
+          </div>
+
+          <div class="tech-item">
+            <div class="tech-name">Pure CSS</div>
+            <div class="tech-role">No Tailwind needed</div>
+          </div>
+
+          <div class="tech-item">
+            <div class="tech-name">SpiteCoin</div>
+            <div class="tech-role">Coming soon™</div>
+          </div>
+
+          <div class="tech-item">
+            <div class="tech-name">Caffeine</div>
+            <div class="tech-role">Primary fuel source</div>
+          </div>
+
+          <div class="tech-item">
+            <div class="tech-name">Pure Spite</div>
+            <div class="tech-role">Core dependency</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Special Thanks -->
+      <div class="credits-section" style="margin-top: 2rem;">
+        <h2>Special Thanks</h2>
+
+        <ul class="thanks-list">
+          <li>Every enterprise vendor who quoted $500k for something we built in a weekend</li>
+          <li>Jira, for giving us something to rebel against</li>
+          <li>The 6-month timeline that became 6 hours</li>
+          <li>Product managers who said "that's not on the roadmap"</li>
+          <li>Every "Contact Sales" button that should have been a price</li>
+          <li>Coffee shops with good wifi and unlimited refills</li>
+          <li>Stack Overflow, for existing when documentation doesn't</li>
+          <li>Everyone who ever said "you can't build that yourself"</li>
+          <li>The weekend. Our true sanctuary.</li>
+        </ul>
+      </div>
+
+      <!-- Movie Credits Style -->
+      <div class="scrolling-credits">
+        <p>- - -</p>
+        <p>This site was built in the time it would take</p>
+        <p>most companies to schedule the kickoff meeting</p>
+        <p>- - -</p>
+        <p>No enterprise licenses were purchased in the making of this website</p>
+        <p>- - -</p>
+        <p>Powered by spite and Zero Capital investment</p>
+        <p>- - -</p>
+        <p>All bugs are features. All features are spite.</p>
+        <p>- - -</p>
+        <p style="margin-top: 2rem; font-size: 1.2rem;">✊</p>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <a href="/">Projects</a> · <a href="/builders.html">Builders</a> · <a href="/manifesto.html">Manifesto</a> ·
+    <a href="/api.html">API Docs</a> · <a href="/about.html">About</a> · <a href="/badges.html">Badges</a> · <a href="/terms.html">Terms</a> · <a href="/privacy.html">Privacy</a> ·
+    <a href="https://github.com/Secret-Weapon-Group/spiteprojects-dot-com" target="_blank">GitHub</a>
+    <br>
+    <span style="margin-top: 0.5rem; display: inline-block;">Built with ✊ by Secret Weapon Group</span>
+    <br>
+    <a href="/badges.html" style="margin-top: 0.5rem; display: inline-block;">
+      <img src="/badges/spite-inside.svg" alt="Spite Inside" width="150" height="70" style="vertical-align: middle;">
+    </a>
+  </footer>
+</body>
+</html>

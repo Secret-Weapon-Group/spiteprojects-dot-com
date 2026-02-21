@@ -69,3 +69,31 @@ Submit an [issue](https://github.com/Secret-Weapon-Group/spiteprojects-dot-com/i
 
 It's a secret.  Sometimes we help.
 
+# Credits
+
+**Built by:** Secret Weapon Group
+**Concept:** Adam Sah
+**Code:** Claude (Anthropic) - Yes, an AI built this. The spite is recursive.
+**Design:** Vibe-coded at 2am
+
+## Sponsors
+
+### Platinum Sponsor: Zero Capital
+"We invested $0. That's the point."
+
+Zero Capital believes in funding projects that don't need funding. Our portfolio includes: nothing, because these projects were built for free.
+
+### Gold Sponsor: Secret Weapon Group
+The only consulting firm that tells you not to hire consultants. Visit [secretweapon.group](https://secretweapon.group)
+
+## Powered By
+
+- **Spite and Zero Capital investment**
+- Node.js / Express
+- Claude (Anthropic) - Our unpaid intern
+- GitHub Actions - Free CI/CD
+- Google Cloud Run - Serverless hosting
+- Pure spite and caffeine
+
+**Built with ✊ by developers who know the 6-month timeline should have been 6 hours.**
+

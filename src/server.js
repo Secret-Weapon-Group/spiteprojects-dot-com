@@ -7,6 +7,77 @@ const PORT = process.env.PORT || 8080;
 
 app.use(express.json());
 
+// Rate limiting tracker (simple in-memory store)
+const rateLimitStore = new Map();
+const RATE_LIMIT_WINDOW = 60 * 1000; // 1 minute
+const RATE_LIMIT_MAX = 100; // 100 requests per minute
+
+// Clean up old rate limit entries every 5 minutes
+setInterval(() => {
+  const now = Date.now();
+  for (const [ip, data] of rateLimitStore.entries()) {
+    if (now - data.windowStart > RATE_LIMIT_WINDOW) {
+      rateLimitStore.delete(ip);
+    }
+  }
+}, 5 * 60 * 1000);
+
+// Rate limiting middleware for API routes
+function rateLimitMiddleware(req, res, next) {
+  if (!req.path.startsWith('/api/v1/')) {
+    return next();
+  }
+
+  const ip = req.ip || req.connection.remoteAddress;
+  const now = Date.now();
+
+  let clientData = rateLimitStore.get(ip);
+
+  if (!clientData || now - clientData.windowStart > RATE_LIMIT_WINDOW) {
+    clientData = {
+      windowStart: now,
+      count: 0
+    };
+    rateLimitStore.set(ip, clientData);
+  }
+
+  clientData.count++;
+
+  const remaining = Math.max(0, RATE_LIMIT_MAX - clientData.count);
+  const resetTime = new Date(clientData.windowStart + RATE_LIMIT_WINDOW);
+
+  res.setHeader('X-RateLimit-Limit', RATE_LIMIT_MAX);
+  res.setHeader('X-RateLimit-Remaining', remaining);
+  res.setHeader('X-RateLimit-Reset', resetTime.toISOString());
+
+  if (clientData.count > RATE_LIMIT_MAX) {
+    return res.status(429).json({
+      error: 'Rate limit exceeded',
+      message: 'Too many requests. Slow down there, champ. Free tier is 100 req/min.',
+      limit: RATE_LIMIT_MAX,
+      remaining: 0,
+      reset: resetTime.toISOString()
+    });
+  }
+
+  next();
+}
+
+// CORS middleware for public API
+function corsMiddleware(req, res, next) {
+  if (req.path.startsWith('/api/v1/')) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    res.setHeader('Access-Control-Max-Age', '86400');
+
+    if (req.method === 'OPTIONS') {
+      return res.status(204).end();
+    }
+  }
+  next();
+}
+
 // Security headers
 app.use((req, res, next) => {
   res.setHeader('X-Content-Type-Options', 'nosniff');
@@ -15,6 +86,10 @@ app.use((req, res, next) => {
   res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
   next();
 });
+
+// Apply CORS and rate limiting
+app.use(corsMiddleware);
+app.use(rateLimitMiddleware);
 
 app.use(express.static(path.join(__dirname, '../public')));
 
@@ -293,7 +368,7 @@ function generatePricing(projectName, projectDescription) {
 
 // API Routes
 
-// List all projects
+// Legacy API routes (kept for backward compatibility)
 app.get('/api/projects', (req, res) => {
   const listings = loadListings();
   const label = req.query.label;
@@ -307,12 +382,10 @@ app.get('/api/projects', (req, res) => {
   res.json(result);
 });
 
-// Get enterprise pricing for a project
 app.get('/api/projects/:id/pricing', (req, res) => {
   const listings = loadListings();
   const projectId = decodeURIComponent(req.params.id);
 
-  // Find project by name (using name as ID)
   const project = listings.find(p => p.name === projectId);
 
   if (!project) {
@@ -323,10 +396,198 @@ app.get('/api/projects/:id/pricing', (req, res) => {
   res.json(pricing);
 });
 
-// List all builders
 app.get('/api/builders', (req, res) => {
   const builders = loadBuilders();
   res.json(builders);
+});
+
+// Public API v1 Routes
+
+// GET /api/v1/projects - List all spite projects
+app.get('/api/v1/projects', (req, res) => {
+  const listings = loadListings();
+  const label = req.query.label;
+  const limit = parseInt(req.query.limit) || undefined;
+  const offset = parseInt(req.query.offset) || 0;
+
+  let result = listings;
+
+  // Filter by label if provided
+  if (label) {
+    result = listings.filter(p => p.labels?.includes(label));
+  }
+
+  // Pagination
+  const total = result.length;
+  if (limit) {
+    result = result.slice(offset, offset + limit);
+  }
+
+  res.json({
+    data: result,
+    meta: {
+      total,
+      limit: limit || total,
+      offset,
+      count: result.length
+    }
+  });
+});
+
+// GET /api/v1/projects/:name - Get a specific project
+app.get('/api/v1/projects/:name', (req, res) => {
+  const listings = loadListings();
+  const projectName = decodeURIComponent(req.params.name);
+
+  const project = listings.find(p => p.name === projectName);
+
+  if (!project) {
+    return res.status(404).json({
+      error: 'Project not found',
+      message: `No spite project found with name: ${projectName}`
+    });
+  }
+
+  res.json({
+    data: project
+  });
+});
+
+// GET /api/v1/projects/:name/spite-score - Get project's spite score
+app.get('/api/v1/projects/:name/spite-score', (req, res) => {
+  const listings = loadListings();
+  const projectName = decodeURIComponent(req.params.name);
+
+  const project = listings.find(p => p.name === projectName);
+
+  if (!project) {
+    return res.status(404).json({
+      error: 'Project not found',
+      message: `No spite project found with name: ${projectName}`
+    });
+  }
+
+  res.json({
+    data: {
+      name: project.name,
+      spite_score: project.spite_score || null,
+      spite_roast: project.spite_roast || null,
+      badges: project.badges || []
+    }
+  });
+});
+
+// GET /api/v1/projects/:name/pricing - Get enterprise pricing
+app.get('/api/v1/projects/:name/pricing', (req, res) => {
+  const listings = loadListings();
+  const projectName = decodeURIComponent(req.params.name);
+
+  const project = listings.find(p => p.name === projectName);
+
+  if (!project) {
+    return res.status(404).json({
+      error: 'Project not found',
+      message: `No spite project found with name: ${projectName}`
+    });
+  }
+
+  const pricing = generatePricing(project.name, project.description || '');
+  res.json({
+    data: pricing
+  });
+});
+
+// GET /api/v1/builders - List all spite builders
+app.get('/api/v1/builders', (req, res) => {
+  const builders = loadBuilders();
+  const limit = parseInt(req.query.limit) || undefined;
+  const offset = parseInt(req.query.offset) || 0;
+
+  let result = builders;
+
+  // Pagination
+  const total = result.length;
+  if (limit) {
+    result = result.slice(offset, offset + limit);
+  }
+
+  res.json({
+    data: result,
+    meta: {
+      total,
+      limit: limit || total,
+      offset,
+      count: result.length
+    }
+  });
+});
+
+// GET /api/v1/stats - Platform statistics
+app.get('/api/v1/stats', (req, res) => {
+  const listings = loadListings();
+  const builders = loadBuilders();
+
+  const totalSpiteScore = listings.reduce((sum, p) => {
+    return sum + (parseFloat(p.spite_score) || 0);
+  }, 0);
+
+  const avgSpiteScore = listings.length > 0 ? totalSpiteScore / listings.length : 0;
+
+  const projectsWithScores = listings.filter(p => p.spite_score !== undefined).length;
+
+  // Count badges
+  const badgeCounts = {};
+  listings.forEach(p => {
+    (p.badges || []).forEach(badge => {
+      badgeCounts[badge] = (badgeCounts[badge] || 0) + 1;
+    });
+  });
+
+  // Count labels
+  const labelCounts = {};
+  listings.forEach(p => {
+    (p.labels || []).forEach(label => {
+      labelCounts[label] = (labelCounts[label] || 0) + 1;
+    });
+  });
+
+  res.json({
+    data: {
+      projects: {
+        total: listings.length,
+        with_spite_scores: projectsWithScores
+      },
+      builders: {
+        total: builders.length
+      },
+      spite_scores: {
+        total: totalSpiteScore,
+        average: Math.round(avgSpiteScore * 10) / 10,
+        highest: Math.max(...listings.map(p => parseFloat(p.spite_score) || 0))
+      },
+      badges: badgeCounts,
+      labels: labelCounts
+    }
+  });
+});
+
+// GET /api/v1/random - Random spite project
+app.get('/api/v1/random', (req, res) => {
+  const listings = loadListings();
+
+  if (listings.length === 0) {
+    return res.status(404).json({
+      error: 'No projects found',
+      message: 'No spite projects available. Be the first to submit!'
+    });
+  }
+
+  const randomIndex = Math.floor(Math.random() * listings.length);
+  const project = listings[randomIndex];
+
+  res.json({
+    data: project
+  });
 });
 
 // Health check

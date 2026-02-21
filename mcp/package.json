@@ -1,0 +1,19 @@
+{
+  "name": "spiteprojects-mcp",
+  "version": "1.0.0",
+  "description": "MCP server for Spite Projects - AI-powered access to spite project data",
+  "main": "spiteprojects-mcp.js",
+  "type": "module",
+  "scripts": {
+    "start": "node spiteprojects-mcp.js"
+  },
+  "keywords": ["mcp", "spite", "ai", "model-context-protocol"],
+  "author": "Spite Projects",
+  "license": "ISC",
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.4"
+  }
+}

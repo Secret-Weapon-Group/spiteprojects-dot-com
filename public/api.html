@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API Documentation - Spite Projects</title>
+  <meta name="description" content="Public API for accessing spite projects, scores, and builder data. Built with spite, for developers.">
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    .api-section {
+      margin: 2rem 0;
+      padding: 1.5rem;
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 8px;
+    }
+
+    .api-section h2 {
+      color: #ff6b6b;
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+    }
+
+    .api-section h3 {
+      color: #6bcfff;
+      margin: 1.5rem 0 0.75rem 0;
+      font-size: 1.2rem;
+    }
+
+    .endpoint {
+      margin: 1.5rem 0;
+      padding: 1rem;
+      background: #0f0f0f;
+      border-left: 3px solid #6bcfff;
+      border-radius: 4px;
+    }
+
+    .endpoint-header {
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .method {
+      display: inline-block;
+      padding: 0.25rem 0.5rem;
+      background: #2a9d8f;
+      color: white;
+      border-radius: 4px;
+      font-weight: bold;
+      font-size: 0.85rem;
+      font-family: monospace;
+    }
+
+    .path {
+      font-family: monospace;
+      color: #e0e0e0;
+      font-size: 1.1rem;
+    }
+
+    .description {
+      color: #aaa;
+      margin: 0.5rem 0;
+      line-height: 1.6;
+    }
+
+    .params {
+      margin: 1rem 0;
+    }
+
+    .params h4 {
+      color: #888;
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .param-item {
+      margin: 0.5rem 0;
+      padding-left: 1rem;
+    }
+
+    .param-name {
+      font-family: monospace;
+      color: #6bcfff;
+    }
+
+    .param-type {
+      color: #888;
+      font-size: 0.9rem;
+      font-style: italic;
+    }
+
+    .code-block {
+      background: #000;
+      padding: 1rem;
+      border-radius: 4px;
+      overflow-x: auto;
+      margin: 1rem 0;
+      border: 1px solid #222;
+    }
+
+    .code-block pre {
+      margin: 0;
+      color: #e0e0e0;
+      font-family: monospace;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .code-block code {
+      color: #6bcfff;
+    }
+
+    .rate-limit-info {
+      background: #2a1a1a;
+      border-left: 3px solid #ff6b6b;
+      padding: 1rem;
+      margin: 1rem 0;
+      border-radius: 4px;
+    }
+
+    .rate-limit-info h4 {
+      color: #ff6b6b;
+      margin-bottom: 0.5rem;
+    }
+
+    .spite-emoji {
+      font-size: 1.5rem;
+      margin-right: 0.5rem;
+    }
+
+    .intro {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      color: #aaa;
+      margin-bottom: 2rem;
+    }
+
+    .intro strong {
+      color: #ff6b6b;
+    }
+
+    .response-schema {
+      margin: 1rem 0;
+    }
+
+    .response-schema h4 {
+      color: #888;
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .schema-key {
+      color: #6bcfff;
+    }
+
+    .schema-value {
+      color: #888;
+    }
+
+    .mcp-section {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      border: 1px solid #444;
+    }
+
+    .mcp-section h2 {
+      color: #ffd700;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1><a href="/">Spite Projects</a></h1>
+  </header>
+
+  <main>
+    <h1 style="color: #ff6b6b; margin-bottom: 0.5rem;">
+      <span class="spite-emoji">✊</span>
+      API Documentation
+    </h1>
+
+    <p class="intro">
+      A <strong>RESTful JSON API</strong> for accessing spite projects, spite scores, builder data, and platform stats.
+      Built with spite, designed for developers who appreciate simplicity over unnecessary complexity.
+      No API keys required (for now). No tracking. No BS.
+    </p>
+
+    <div class="rate-limit-info">
+      <h4>Rate Limits</h4>
+      <p>Free tier: <strong>100 requests/minute</strong> per IP address</p>
+      <p>Response headers:</p>
+      <ul style="margin-top: 0.5rem; padding-left: 1.5rem; color: #aaa;">
+        <li><code style="color: #6bcfff;">X-RateLimit-Limit</code> - Maximum requests per window</li>
+        <li><code style="color: #6bcfff;">X-RateLimit-Remaining</code> - Requests remaining</li>
+        <li><code style="color: #6bcfff;">X-RateLimit-Reset</code> - When the limit resets (ISO 8601)</li>
+      </ul>
+      <p style="margin-top: 0.5rem; color: #888; font-size: 0.9rem;">
+        Exceeded the limit? Slow down or host your own instance. The code is open source.
+      </p>
+    </div>
+
+    <!-- Projects Endpoints -->
+    <div class="api-section">
+      <h2>Projects</h2>
+
+      <div class="endpoint">
+        <div class="endpoint-header">
+          <span class="method">GET</span>
+          <span class="path">/api/v1/projects</span>
+        </div>
+        <p class="description">List all spite projects with optional filtering and pagination.</p>
+
+        <div class="params">
+          <h4>Query Parameters</h4>
+          <div class="param-item">
+            <span class="param-name">label</span> <span class="param-type">(string, optional)</span>
+            <p class="description">Filter by label (e.g., "vibe-coding", "meta")</p>
+          </div>
+          <div class="param-item">
+            <span class="param-name">limit</span> <span class="param-type">(integer, optional)</span>
+            <p class="description">Number of results per page</p>
+          </div>
+          <div class="param-item">
+            <span class="param-name">offset</span> <span class="param-type">(integer, optional)</span>
+            <p class="description">Pagination offset (default: 0)</p>
+          </div>
+        </div>
+
+        <h4 style="color: #888; font-size: 0.9rem; margin: 1rem 0 0.5rem 0;">EXAMPLE REQUEST</h4>
+        <div class="code-block">
+          <pre><code>curl https://spiteprojects.com/api/v1/projects?label=vibe-coding&limit=10</code></pre>
+        </div>
+
+        <div class="response-schema">
+          <h4>Response Schema</h4>
+          <div class="code-block">
+            <pre>{
+  <span class="schema-key">"data"</span>: [
+    {
+      <span class="schema-key">"name"</span>: <span class="schema-value">"Project Name"</span>,
+      <span class="schema-key">"author"</span>: <span class="schema-value">"username"</span>,
+      <span class="schema-key">"description"</span>: <span class="schema-value">"Description of the spite"</span>,
+      <span class="schema-key">"repo"</span>: <span class="schema-value">"https://github.com/..."</span>,
+      <span class="schema-key">"web"</span>: <span class="schema-value">"https://..."</span>,
+      <span class="schema-key">"labels"</span>: [<span class="schema-value">"label1"</span>, <span class="schema-value">"label2"</span>],
+      <span class="schema-key">"badges"</span>: [<span class="schema-value">"badge-id"</span>],
+      <span class="schema-key">"spite_score"</span>: <span class="schema-value">7.5</span>,
+      <span class="schema-key">"spite_roast"</span>: <span class="schema-value">"Snarky AI roast"</span>
+    }
+  ],
+  <span class="schema-key">"meta"</span>: {
+    <span class="schema-key">"total"</span>: <span class="schema-value">42</span>,
+    <span class="schema-key">"limit"</span>: <span class="schema-value">10</span>,
+    <span class="schema-key">"offset"</span>: <span class="schema-value">0</span>,
+    <span class="schema-key">"count"</span>: <span class="schema-value">10</span>
+  }
+}</pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint-header">
+          <span class="method">GET</span>
+          <span class="path">/api/v1/projects/:name</span>
+        </div>
+        <p class="description">Get a specific project by name (URL-encoded).</p>
+
+        <h4 style="color: #888; font-size: 0.9rem; margin: 1rem 0 0.5rem 0;">EXAMPLE REQUEST</h4>
+        <div class="code-block">
+          <pre><code>curl https://spiteprojects.com/api/v1/projects/spiteprojects.com</code></pre>
+        </div>
+
+        <div class="response-schema">
+          <h4>Response Schema</h4>
+          <div class="code-block">
+            <pre>{
+  <span class="schema-key">"data"</span>: {
+    <span class="schema-key">"name"</span>: <span class="schema-value">"spiteprojects.com"</span>,
+    <span class="schema-key">"author"</span>: <span class="schema-value">"asah"</span>,
+    <span class="schema-key">"description"</span>: <span class="schema-value">"..."</span>,
+    ...
+  }
+}</pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint-header">
+          <span class="method">GET</span>
+          <span class="path">/api/v1/projects/:name/spite-score</span>
+        </div>
+        <p class="description">Get the Spite Score and roast for a project.</p>
+
+        <h4 style="color: #888; font-size: 0.9rem; margin: 1rem 0 0.5rem 0;">EXAMPLE REQUEST</h4>
+        <div class="code-block">
+          <pre><code>curl https://spiteprojects.com/api/v1/projects/spiteprojects.com/spite-score</code></pre>
+        </div>
+
+        <div class="response-schema">
+          <h4>Response Schema</h4>
+          <div class="code-block">
+            <pre>{
+  <span class="schema-key">"data"</span>: {
+    <span class="schema-key">"name"</span>: <span class="schema-value">"spiteprojects.com"</span>,
+    <span class="schema-key">"spite_score"</span>: <span class="schema-value">7.5</span>,
+    <span class="schema-key">"spite_roast"</span>: <span class="schema-value">"AI-generated roast"</span>,
+    <span class="schema-key">"badges"</span>: [<span class="schema-value">"vibe-coded"</span>, <span class="schema-value">"meta"</span>]
+  }
+}</pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint-header">
+          <span class="method">GET</span>
+          <span class="path">/api/v1/projects/:name/pricing</span>
+        </div>
+        <p class="description">
+          Get satirical enterprise pricing tiers for a project.
+          Because every spite project deserves a laughably overpriced enterprise plan.
+        </p>
+
+        <h4 style="color: #888; font-size: 0.9rem; margin: 1rem 0 0.5rem 0;">EXAMPLE REQUEST</h4>
+        <div class="code-block">
+          <pre><code>curl https://spiteprojects.com/api/v1/projects/spiteprojects.com/pricing</code></pre>
+        </div>
+
+        <div class="response-schema">
+          <h4>Response Schema</h4>
+          <div class="code-block">
+            <pre>{
+  <span class="schema-key">"data"</span>: {
+    <span class="schema-key">"projectName"</span>: <span class="schema-value">"spiteprojects.com"</span>,
+    <span class="schema-key">"tiers"</span>: [
+      {
+        <span class="schema-key">"name"</span>: <span class="schema-value">"Startup"</span>,
+        <span class="schema-key">"price"</span>: <span class="schema-value">"$0/year"</span>,
+        <span class="schema-key">"description"</span>: <span class="schema-value">"Just use the free version"</span>,
+        <span class="schema-key">"features"</span>: [...]
+      },
+      ...
+    ],
+    <span class="schema-key">"disclaimer"</span>: <span class="schema-value">"Your spite project: $0 - Available right now - Zero meetings required"</span>
+  }
+}</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Builders Endpoints -->
+    <div class="api-section">
+      <h2>Builders</h2>
+
+      <div class="endpoint">
+        <div class="endpoint-header">
+          <span class="method">GET</span>
+          <span class="path">/api/v1/builders</span>
+        </div>
+        <p class="description">List all spite builders with optional pagination.</p>
+
+        <div class="params">
+          <h4>Query Parameters</h4>
+          <div class="param-item">
+            <span class="param-name">limit</span> <span class="param-type">(integer, optional)</span>
+            <p class="description">Number of results per page</p>
+          </div>
+          <div class="param-item">
+            <span class="param-name">offset</span> <span class="param-type">(integer, optional)</span>
+            <p class="description">Pagination offset (default: 0)</p>
+          </div>
+        </div>
+
+        <h4 style="color: #888; font-size: 0.9rem; margin: 1rem 0 0.5rem 0;">EXAMPLE REQUEST</h4>
+        <div class="code-block">
+          <pre><code>curl https://spiteprojects.com/api/v1/builders</code></pre>
+        </div>
+
+        <div class="response-schema">
+          <h4>Response Schema</h4>
+          <div class="code-block">
+            <pre>{
+  <span class="schema-key">"data"</span>: [
+    {
+      <span class="schema-key">"name"</span>: <span class="schema-value">"Builder Name"</span>,
+      <span class="schema-key">"github"</span>: <span class="schema-value">"username"</span>,
+      <span class="schema-key">"bio"</span>: <span class="schema-value">"Short bio"</span>,
+      <span class="schema-key">"projects"</span>: [<span class="schema-value">"Project 1"</span>, <span class="schema-value">"Project 2"</span>],
+      ...
+    }
+  ],
+  <span class="schema-key">"meta"</span>: {
+    <span class="schema-key">"total"</span>: <span class="schema-value">15</span>,
+    <span class="schema-key">"limit"</span>: <span class="schema-value">15</span>,
+    <span class="schema-key">"offset"</span>: <span class="schema-value">0</span>,
+    <span class="schema-key">"count"</span>: <span class="schema-value">15</span>
+  }
+}</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats Endpoints -->
+    <div class="api-section">
+      <h2>Platform Stats</h2>
+
+      <div class="endpoint">
+        <div class="endpoint-header">
+          <span class="method">GET</span>
+          <span class="path">/api/v1/stats</span>
+        </div>
+        <p class="description">
+          Get platform-wide statistics including total projects, builders, spite scores, and popular badges/labels.
+        </p>
+
+        <h4 style="color: #888; font-size: 0.9rem; margin: 1rem 0 0.5rem 0;">EXAMPLE REQUEST</h4>
+        <div class="code-block">
+          <pre><code>curl https://spiteprojects.com/api/v1/stats</code></pre>
+        </div>
+
+        <div class="response-schema">
+          <h4>Response Schema</h4>
+          <div class="code-block">
+            <pre>{
+  <span class="schema-key">"data"</span>: {
+    <span class="schema-key">"projects"</span>: {
+      <span class="schema-key">"total"</span>: <span class="schema-value">42</span>,
+      <span class="schema-key">"with_spite_scores"</span>: <span class="schema-value">38</span>
+    },
+    <span class="schema-key">"builders"</span>: {
+      <span class="schema-key">"total"</span>: <span class="schema-value">15</span>
+    },
+    <span class="schema-key">"spite_scores"</span>: {
+      <span class="schema-key">"total"</span>: <span class="schema-value">285.5</span>,
+      <span class="schema-key">"average"</span>: <span class="schema-value">7.5</span>,
+      <span class="schema-key">"highest"</span>: <span class="schema-value">9.2</span>
+    },
+    <span class="schema-key">"badges"</span>: {
+      <span class="schema-key">"vibe-coded"</span>: <span class="schema-value">12</span>,
+      <span class="schema-key">"speed-run"</span>: <span class="schema-value">8</span>,
+      ...
+    },
+    <span class="schema-key">"labels"</span>: {
+      <span class="schema-key">"vibe-coding"</span>: <span class="schema-value">15</span>,
+      <span class="schema-key">"anti-saas"</span>: <span class="schema-value">10</span>,
+      ...
+    }
+  }
+}</pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint-header">
+          <span class="method">GET</span>
+          <span class="path">/api/v1/random</span>
+        </div>
+        <p class="description">
+          Get a random spite project for inspiration. Perfect for when you need a dose of spite energy.
+        </p>
+
+        <h4 style="color: #888; font-size: 0.9rem; margin: 1rem 0 0.5rem 0;">EXAMPLE REQUEST</h4>
+        <div class="code-block">
+          <pre><code>curl https://spiteprojects.com/api/v1/random</code></pre>
+        </div>
+
+        <div class="response-schema">
+          <h4>Response Schema</h4>
+          <div class="code-block">
+            <pre>{
+  <span class="schema-key">"data"</span>: {
+    <span class="schema-key">"name"</span>: <span class="schema-value">"Random Spite Project"</span>,
+    <span class="schema-key">"author"</span>: <span class="schema-value">"username"</span>,
+    ...
+  }
+}</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MCP Integration -->
+    <div class="api-section mcp-section">
+      <h2>
+        <span class="spite-emoji">🤖</span>
+        MCP Integration (Model Context Protocol)
+      </h2>
+      <p class="description" style="color: #ddd;">
+        Use Spite Projects directly in Claude Desktop or other MCP-compatible AI assistants.
+        Get spite project recommendations, search projects, and access spite scores from your AI.
+      </p>
+
+      <h3>Installation</h3>
+      <p class="description" style="color: #aaa;">
+        Add to your Claude Desktop config at <code style="color: #6bcfff;">~/Library/Application Support/Claude/claude_desktop_config.json</code> (macOS):
+      </p>
+      <div class="code-block">
+        <pre>{
+  "mcpServers": {
+    "spiteprojects": {
+      "command": "node",
+      "args": ["/path/to/spiteprojects-dot-com/mcp/spiteprojects-mcp.js"]
+    }
+  }
+}</pre>
+      </div>
+
+      <h3>Available MCP Tools</h3>
+      <div class="endpoint" style="border-left-color: #ffd700;">
+        <div class="endpoint-header">
+          <span class="method" style="background: #ffd700; color: #000;">TOOL</span>
+          <span class="path">list_spite_projects</span>
+        </div>
+        <p class="description">Returns all spite projects with optional label filtering.</p>
+      </div>
+
+      <div class="endpoint" style="border-left-color: #ffd700;">
+        <div class="endpoint-header">
+          <span class="method" style="background: #ffd700; color: #000;">TOOL</span>
+          <span class="path">get_spite_score</span>
+        </div>
+        <p class="description">Get a project's spite score and roast by name.</p>
+      </div>
+
+      <div class="endpoint" style="border-left-color: #ffd700;">
+        <div class="endpoint-header">
+          <span class="method" style="background: #ffd700; color: #000;">TOOL</span>
+          <span class="path">get_random_project</span>
+        </div>
+        <p class="description">Get a random spite project for inspiration.</p>
+      </div>
+
+      <div class="endpoint" style="border-left-color: #ffd700;">
+        <div class="endpoint-header">
+          <span class="method" style="background: #ffd700; color: #000;">TOOL</span>
+          <span class="path">search_projects</span>
+        </div>
+        <p class="description">Search projects by name or description.</p>
+      </div>
+
+      <p class="description" style="color: #aaa; margin-top: 1.5rem;">
+        See the <a href="https://github.com/Secret-Weapon-Group/spiteprojects-dot-com/tree/main/mcp" target="_blank">MCP directory</a>
+        for full setup instructions and source code.
+      </p>
+    </div>
+
+    <!-- Error Handling -->
+    <div class="api-section">
+      <h2>Error Handling</h2>
+      <p class="description">
+        All endpoints return appropriate HTTP status codes and JSON error responses.
+      </p>
+
+      <h3>Common Error Responses</h3>
+      <div class="code-block">
+        <pre>// 404 Not Found
+{
+  <span class="schema-key">"error"</span>: <span class="schema-value">"Project not found"</span>,
+  <span class="schema-key">"message"</span>: <span class="schema-value">"No spite project found with name: XYZ"</span>
+}
+
+// 429 Rate Limit Exceeded
+{
+  <span class="schema-key">"error"</span>: <span class="schema-value">"Rate limit exceeded"</span>,
+  <span class="schema-key">"message"</span>: <span class="schema-value">"Too many requests. Slow down there, champ. Free tier is 100 req/min."</span>,
+  <span class="schema-key">"limit"</span>: <span class="schema-value">100</span>,
+  <span class="schema-key">"remaining"</span>: <span class="schema-value">0</span>,
+  <span class="schema-key">"reset"</span>: <span class="schema-value">"2026-02-20T12:34:56.789Z"</span>
+}</pre>
+      </div>
+    </div>
+
+    <!-- Footer Notes -->
+    <div class="api-section" style="background: #0f0f0f; border-color: #222;">
+      <h2 style="color: #888;">Notes</h2>
+      <ul style="color: #aaa; line-height: 2; padding-left: 1.5rem;">
+        <li>All responses are JSON with <code style="color: #6bcfff;">Content-Type: application/json</code></li>
+        <li>CORS enabled for all <code style="color: #6bcfff;">/api/v1/*</code> endpoints</li>
+        <li>Rate limits are per IP address, enforced on a rolling 1-minute window</li>
+        <li>Project names in URLs must be URL-encoded (use <code style="color: #6bcfff;">encodeURIComponent</code>)</li>
+        <li>No authentication required (yet) - this is open data built with spite</li>
+        <li>Want higher rate limits? Run your own instance. It's open source. <span class="spite-emoji">✊</span></li>
+      </ul>
+    </div>
+
+  </main>
+
+  <footer>
+    <a href="/">Projects</a> · <a href="/builders.html">Builders</a> · <a href="/manifesto.html">Manifesto</a> ·
+    <a href="/api.html">API Docs</a> · <a href="/badges.html">Badges</a> · <a href="/terms.html">Terms</a> · <a href="/privacy.html">Privacy</a> ·
+    <a href="https://github.com/Secret-Weapon-Group/spiteprojects-dot-com" target="_blank">GitHub</a>
+    <br>
+    <span style="margin-top: 0.5rem; display: inline-block;">Built with ✊ by Secret Weapon Group</span>
+    <br>
+    <a href="/badges.html" style="margin-top: 0.5rem; display: inline-block;">
+      <img src="/badges/spite-inside.svg" alt="Spite Inside" width="150" height="70" style="vertical-align: middle;">
+    </a>
+  </footer>
+
+</body>
+</html>
