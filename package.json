@@ -6,7 +6,9 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "node --watch src/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "validate": "node scripts/validate-listings.js",
+    "prepare": "husky || true",
+    "test": "npm run validate"
   },
   "keywords": ["spite", "ai", "projects"],
   "author": "",
@@ -16,5 +18,8 @@
   },
   "dependencies": {
     "express": "^4.21.0"
+  },
+  "devDependencies": {
+    "husky": "^9.0.0"
   }
 }

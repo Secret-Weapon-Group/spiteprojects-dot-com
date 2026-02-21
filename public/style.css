@@ -1,0 +1,249 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  background: #0a0a0a;
+  color: #e0e0e0;
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+a { color: #6bcfff; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+header {
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid #222;
+}
+
+header h1 { font-size: 1.5rem; }
+header h1 a { color: #ff6b6b; }
+
+main {
+  flex: 1;
+  padding: 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+footer {
+  padding: 1.5rem 2rem;
+  border-top: 1px solid #222;
+  text-align: center;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+footer a { color: #888; margin: 0 0.5rem; }
+
+/* Project Cards */
+.projects {
+  display: grid;
+  gap: 1rem;
+}
+
+.project-card {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 1.25rem;
+  display: grid;
+  grid-template-columns: 60px 1fr;
+  gap: 1rem;
+}
+
+.project-card.no-thumb {
+  grid-template-columns: 1fr;
+}
+
+.project-thumb {
+  width: 60px;
+  height: 60px;
+  border-radius: 8px;
+  object-fit: cover;
+  background: #333;
+}
+
+.project-info h3 {
+  color: #ff6b6b;
+  margin-bottom: 0.25rem;
+}
+
+.project-info .description {
+  color: #aaa;
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+}
+
+.project-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.project-links {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.75rem;
+}
+
+.project-links a {
+  font-size: 0.9rem;
+  padding: 0.25rem 0.5rem;
+  background: #252525;
+  border-radius: 4px;
+}
+
+.labels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.label {
+  background: #2a2a2a;
+  color: #888;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+}
+
+.label:hover {
+  background: #333;
+  color: #aaa;
+}
+
+/* Activity indicators */
+.activity {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.activity-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.activity-dot.hot { background: #4ade80; }
+.activity-dot.active { background: #facc15; }
+.activity-dot.maintained { background: #60a5fa; }
+.activity-dot.dormant { background: #666; }
+
+/* Submit Form */
+.submit-section {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-top: 2rem;
+}
+
+.submit-section h2 {
+  color: #ff6b6b;
+  margin-bottom: 1rem;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+input, textarea {
+  background: #0a0a0a;
+  border: 1px solid #444;
+  border-radius: 4px;
+  padding: 0.75rem;
+  color: #e0e0e0;
+  font-size: 1rem;
+  font-family: inherit;
+}
+
+input:focus, textarea:focus {
+  outline: none;
+  border-color: #6bcfff;
+}
+
+button {
+  background: #ff6b6b;
+  color: #0a0a0a;
+  border: none;
+  border-radius: 4px;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+button:hover { background: #ff8585; }
+
+.submit-button {
+  display: inline-block;
+  background: #ff6b6b;
+  color: #0a0a0a;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  font-weight: bold;
+  margin-top: 1rem;
+  text-decoration: none;
+}
+
+.submit-button:hover {
+  background: #ff8585;
+  text-decoration: none;
+}
+
+.message {
+  padding: 1rem;
+  border-radius: 4px;
+  margin-top: 1rem;
+}
+
+.message.success { background: #1a3a1a; border: 1px solid #2d5a2d; }
+.message.error { background: #3a1a1a; border: 1px solid #5a2d2d; }
+
+/* Filters */
+.filters {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.search-box {
+  flex: 1;
+  min-width: 200px;
+}
+
+.filter-labels {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+/* Legal pages */
+.legal {
+  max-width: 700px;
+}
+
+.legal h2 { color: #ff6b6b; margin-bottom: 1rem; }
+.legal h3 { color: #ccc; margin: 1.5rem 0 0.5rem; }
+.legal h4 { color: #aaa; margin: 1rem 0 0.5rem; }
+.legal p, .legal li { color: #999; }
+.legal ul { margin-left: 1.5rem; }
+.legal .updated { color: #666; font-size: 0.9rem; margin-bottom: 1.5rem; }
+
+/* Responsive */
+@media (max-width: 600px) {
+  header, main, footer { padding: 1rem; }
+  .project-card { grid-template-columns: 1fr; }
+  .project-thumb { display: none; }
+}

@@ -1,0 +1,7 @@
+#!/bin/sh
+
+# Validate listings.md if it was modified
+if git diff --cached --name-only | grep -q "data/listings.md"; then
+  echo "Validating listings.md..."
+  node scripts/validate-listings.js
+fi

@@ -27,15 +27,17 @@
 
     <div class="submit-section">
       <h2>Submit Your Spite Project</h2>
-      <p style="color: #888; margin-bottom: 1rem; font-size: 0.9rem;">
-        Add a <code>.spite</code> or <code>SPITE.md</code> file to your repo, then submit the URL below.
-        <a href="https://github.com/Secret-Weapon-Group/spiteprojects-dot-com/blob/main/DESIGN-METADATA.md" target="_blank">See format</a>
+      <p style="color: #aaa; line-height: 1.8;">
+        Add your project to
+        <a href="https://github.com/Secret-Weapon-Group/spiteprojects-dot-com/blob/main/data/listings.md" target="_blank">data/listings.md</a>
+        and open a PR.<br>
+        See the <a href="https://github.com/Secret-Weapon-Group/spiteprojects-dot-com/blob/main/DESIGN-METADATA.md" target="_blank">format guide</a> for details.
       </p>
-      <form id="submit-form">
-        <input type="url" name="repoUrl" placeholder="Git repository URL (GitHub, GitLab, etc.)" required>
-        <button type="submit">Submit Project</button>
-      </form>
-      <div id="message"></div>
+      <a href="https://github.com/Secret-Weapon-Group/spiteprojects-dot-com/edit/main/data/listings.md"
+         target="_blank"
+         class="submit-button">
+        Add Your Project via PR
+      </a>
     </div>
   </main>
 
@@ -53,17 +55,14 @@
 
     function renderProject(p) {
       const links = [];
-      if (p.repo) links.push(`<a href="${escapeHtml(p.repo)}" target="_blank" rel="noopener">Repo</a>`);
-      if (p.web) links.push(`<a href="${escapeHtml(p.web)}" target="_blank" rel="noopener">Website</a>`);
-      if (p.app?.android) links.push(`<a href="${escapeHtml(p.app.android)}" target="_blank" rel="noopener">Android</a>`);
-      if (p.app?.ios) links.push(`<a href="${escapeHtml(p.app.ios)}" target="_blank" rel="noopener">iOS</a>`);
+      if (p.repo) links.push(`<a href="${escapeHtml(p.repo)}" target="_blank" rel="noopener noreferrer">Repo</a>`);
+      if (p.web) links.push(`<a href="${escapeHtml(p.web)}" target="_blank" rel="noopener noreferrer">Website</a>`);
+      if (p.app?.android) links.push(`<a href="${escapeHtml(p.app.android)}" target="_blank" rel="noopener noreferrer">Android</a>`);
+      if (p.app?.ios) links.push(`<a href="${escapeHtml(p.app.ios)}" target="_blank" rel="noopener noreferrer">iOS</a>`);
 
       const labels = (p.labels || []).slice(0, 3).map(l =>
-        `<a href="/?label=${escapeHtml(l)}" class="label">${escapeHtml(l)}</a>`
+        `<a href="/?label=${encodeURIComponent(l)}" class="label">${escapeHtml(l)}</a>`
       ).join('');
-
-      const activityClass = p.activity || 'dormant';
-      const activityLabel = {hot: 'Hot', active: 'Active', maintained: 'Maintained', dormant: 'Dormant'}[activityClass];
 
       const thumbHtml = p.thumbnail
         ? `<img src="${escapeHtml(p.thumbnail)}" alt="" class="project-thumb" loading="lazy">`
@@ -77,10 +76,6 @@
             <p class="description">${escapeHtml(p.description)}</p>
             <div class="project-meta">
               <span>by ${escapeHtml(p.author || 'anonymous')}</span>
-              <span class="activity">
-                <span class="activity-dot ${activityClass}"></span>
-                ${activityLabel}
-              </span>
             </div>
             <div class="labels">${labels}</div>
             <div class="project-links">${links.join('')}</div>
@@ -113,40 +108,6 @@
         const text = card.textContent.toLowerCase();
         card.style.display = text.includes(query) ? '' : 'none';
       });
-    });
-
-    // Submit form
-    document.getElementById('submit-form').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const form = e.target;
-      const repoUrl = form.repoUrl.value;
-
-      const msg = document.getElementById('message');
-      msg.className = 'message';
-      msg.textContent = 'Fetching project metadata...';
-
-      try {
-        const res = await fetch('/api/projects', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ repoUrl })
-        });
-
-        const data = await res.json();
-
-        if (res.ok) {
-          msg.className = 'message success';
-          msg.textContent = `Added: ${data.name}`;
-          form.reset();
-          loadProjects();
-        } else {
-          msg.className = 'message error';
-          msg.textContent = data.error || 'Failed to add project';
-        }
-      } catch (err) {
-        msg.className = 'message error';
-        msg.textContent = 'Network error';
-      }
     });
 
     loadProjects();
